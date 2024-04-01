@@ -1,0 +1,106 @@
+{
+    "name": "BatMovement",
+    "maps": [
+        {
+            "name": "Bat1",
+            "id": "b96a850d-21fe-413a-b363-e575184dc4c4",
+            "actions": [
+                {
+                    "name": "Move",
+                    "type": "Button",
+                    "id": "d29acd31-d77f-4110-be2b-3717adf17862",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "1D Axis",
+                    "id": "36004805-3d81-4231-a9b3-d83938389997",
+                    "path": "1DAxis",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Move",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "positive",
+                    "id": "a7ba33a3-3479-49f2-868c-ce1f6ae496a1",
+                    "path": "<Keyboard>/q",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "negative",
+                    "id": "11d0ade8-433f-4075-9d6c-ccbfa8a5bfe6",
+                    "path": "<Keyboard>/a",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                }
+            ]
+        },
+        {
+            "name": "Bat2",
+            "id": "37bea764-e3f2-408d-83a8-5e5fc675b35f",
+            "actions": [
+                {
+                    "name": "Move",
+                    "type": "Button",
+                    "id": "eb0413e9-575d-4f9c-a8f8-36456e449736",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "1D Axis",
+                    "id": "f4aebeae-1863-40ab-9abe-c69c09b68654",
+                    "path": "1DAxis",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Move",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "positive",
+                    "id": "a594229a-fa29-4976-82ee-ef64f07a3aed",
+                    "path": "<Keyboard>/p",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "negative",
+                    "id": "17574432-7c12-47c0-9d04-7c8d2903fa8f",
+                    "path": "<Keyboard>/l",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}

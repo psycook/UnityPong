@@ -172,7 +172,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c325d6711faf044b0a0b2fe06b467709, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 5
+  speed: 7.5
   bounceVelocityMultiplier: 1
   batHit: {fileID: 8300000, guid: 2c5d7247c27474be0ae178744d02ee81, type: 3}
   wallHit: {fileID: 8300000, guid: 84bd25c0fc2b947caaa565bd1e75bd78, type: 3}

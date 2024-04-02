@@ -1,23 +1,48 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class BatBehaviour : MonoBehaviour
 {
-    public float speed = 5.0f;
-    public float minY = -3.0f;
-    public float maxY = 3.0f;
-    public bool isAI = false;
+    public float MaxSpeed = 5.0f;
+    public float MinY = -5.0f;
+    public float MaxY = 5.0f;
+    public bool  IsAI = false;
 
-    private float _direction;
     private PlayerInput _playerInput;
     private InputAction _moveAction;
-    private Difficulty _difficulty = Difficulty.Medium;
+    private PaddleSize _paddleSize = PaddleSize.Medium;
+    private Difficulty _aiDifficulty = Difficulty.Medium;
+    private float _direction;
+    private float _speed;
+    private float _clampMin, _clampMax = 0.0f;
+    private float _aiDeadzone = 0.5f;
 
     void Start()
     {
-        if (!isAI)
+        if(gameObject.name.ToLower() == "paddle1")
+        {
+            _paddleSize = GamePreferences.Instance.P1PaddleSize;
+        }
+        else
+        {
+            _paddleSize = GamePreferences.Instance.P2PaddleSize;
+            _aiDifficulty = GamePreferences.Instance.AIDifficulty;
+            IsAI = GamePreferences.Instance.PlayerCount == 1 ? true : false;
+        }
+
+        if (IsAI)
+        {
+            switch (_aiDifficulty)
+            {
+                case Difficulty.Easy:
+                    MaxSpeed *= 0.5f;
+                    break;
+                case Difficulty.Hard:
+                    MaxSpeed *= 2.0f;
+                    break;
+            }
+        }
+        else
         {
             _playerInput = GetComponent<PlayerInput>();
             _moveAction = _playerInput.actions["Move"];
@@ -29,22 +54,22 @@ public class BatBehaviour : MonoBehaviour
             }
         }
 
-        _difficulty = gameObject.name.ToLower() == "paddle1" ?
-            GamePreferences.Instance.P1Difficulty :
-            GamePreferences.Instance.P2Difficulty;
-
-        switch(_difficulty)
+        switch (_paddleSize)
         {
-            case Difficulty.Easy:
+            case PaddleSize.Big:
                 transform.localScale = new Vector3(transform.localScale.x, 1.5f, transform.localScale.z);
                 break;
-            case Difficulty.Medium:
+            case PaddleSize.Medium:
                 transform.localScale = new Vector3(transform.localScale.x, 1.0f, transform.localScale.z);
                 break;
             default:
                 transform.localScale = new Vector3(transform.localScale.x, 0.5f, transform.localScale.z);
                 break;
         }
+
+        _clampMin = MinY + (transform.localScale.y/2);
+        _clampMax = MaxY - (transform.localScale.y/2);
+        _aiDeadzone = (transform.localScale.y/2);
     }
 
     private void OnDisable()
@@ -67,37 +92,43 @@ public class BatBehaviour : MonoBehaviour
 
     private void Update()
     {
-        if(isAI)
+        if (IsAI)
         {
             GameObject gameController = GameObject.Find("GameController");
             GameBehaviour gameBehaviour = gameController.GetComponent<GameBehaviour>();
-            if (gameBehaviour != null)
+            if (gameBehaviour == null) return;
+            GameObject firstBall = gameBehaviour.getFirstBall();
+            if (firstBall == null)
             {
-                GameObject firstBall = gameBehaviour.getFirstBall();
-                if (firstBall == null)
-                {
-                    _direction = 0.0f;
-                    return;
-                }
-                if (firstBall.transform.position.y < (transform.position.y - (transform.localScale.y/2)))
-                {
-                    _direction = -1.0f;
-                }
-                else if (firstBall.transform.position.y > (transform.position.y + (transform.localScale.y/2)))
-                {
-                    _direction = 1.0f;
-                }
-                else
-                {
-                    _direction = 0.0f;
-                }
+                _direction = 0.0f;
+                _speed = 0.0f;
+                return;
             }
+
+            float ballY = firstBall.transform.position.y;
+            float paddleY = transform.position.y;
+            float delta = ballY - paddleY;
+
+            if (Mathf.Abs(delta) < _aiDeadzone)
+            {
+                _direction = 0.0f;
+                _speed = 0.0f;
+            }
+            else
+            {
+                _direction = (delta < 0) ? -1.0f : 1.0f;
+                _speed = Mathf.Clamp(Mathf.Abs(delta) * MaxSpeed, -MaxSpeed, MaxSpeed);
+            }
+        }
+        else
+        {
+            _speed = MaxSpeed;
         }
     }
 
     void FixedUpdate()
     {
-        transform.position += new Vector3(0.0f, _direction * speed * Time.deltaTime, 0.0f);
-        transform.position = new Vector3(transform.position.x, Mathf.Clamp(transform.position.y, minY, maxY), 0.0f);
+        transform.position += new Vector3(0.0f, _direction * _speed * Time.deltaTime, 0.0f);
+        transform.position = new Vector3(transform.position.x, Mathf.Clamp(transform.position.y, _clampMin, _clampMax), 0.0f);
     }
 }

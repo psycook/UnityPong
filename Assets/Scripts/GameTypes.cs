@@ -8,3 +8,18 @@ public enum Difficulty
     Medium,
     Hard
 }
+
+public enum PaddleSize
+{
+    Small,
+    Medium,
+    Big
+}
+
+public enum GameState
+{
+    Idle,
+    LaunchSequence,
+    LetsPong,
+    GameWon
+}

@@ -1,8 +1,9 @@
 public class GamePreferences
 {
     public int PlayerCount { get; set; }
-    public Difficulty P1Difficulty { get; set; }
-    public Difficulty P2Difficulty { get; set; }
+    public PaddleSize P1PaddleSize { get; set; }
+    public PaddleSize P2PaddleSize { get; set; }
+    public Difficulty AIDifficulty { get; set; }
     public int PointsToWin { get; set; }
 
     public static GamePreferences _instance;
@@ -22,8 +23,9 @@ public class GamePreferences
     GamePreferences()
     {
         PlayerCount = 2;
-        P1Difficulty = Difficulty.Medium;
-        P2Difficulty = Difficulty.Medium;
-        PointsToWin = 5;
+        P1PaddleSize = PaddleSize.Medium;
+        P2PaddleSize = PaddleSize.Medium;
+        AIDifficulty = Difficulty.Medium;
+        PointsToWin = 3;
     }
 }

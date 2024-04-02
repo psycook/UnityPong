@@ -45,7 +45,7 @@ public class BallBehaviour : MonoBehaviour
         {
             _audioSource.PlayOneShot(batHit);
             float positionDifference = transform.position.y - collision.gameObject.transform.position.y;
-            Vector2 newDirection = new Vector2(_rigidbody.velocity.x, positionDifference * 5.0f).normalized;
+            Vector2 newDirection = new Vector2(_rigidbody.velocity.x, _rigidbody.velocity.y + positionDifference).normalized;
             _rigidbody.velocity = newDirection * speed;
             speed += 0.25f;
         }
